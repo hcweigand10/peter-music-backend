@@ -10,7 +10,7 @@ module.exports = {
     console.log(`login attempt for ${req.body.email}`)
     User.findOne({email:req.body.email}).then(dbUser=>{
         if(!dbUser){
-            return res.status(403).json({err:"invalid credentials"})
+            return res.status(403).json({err:"invalid email"})
         } 
         if (req.body.studentId === dbUser.studentId) {
             const token = jwt.sign(
@@ -32,7 +32,7 @@ module.exports = {
                 user: dbUser
             });
           } else {
-            res.status(403).json({err: "invalid credentials"});
+            res.status(403).json({err: "invalid studentId"});
           }
     }).catch(err=>{
         console.log(err)
@@ -55,15 +55,12 @@ module.exports = {
   },
   // Get a single user
   getSingleUser(req, res) {
-    User.findOne({ email: req.params.email })
+    User.findOne({ studentId: req.params.studentId })
       // .select('-__v')
       .then(async (user) =>
         !user
-          ? res.status(404).json({ message: 'No user with that email' })
-          : res.json({
-              user,
-              // friends: await getUserFriends(req.params.email),
-            })
+          ? res.status(404).json({ message: 'No user with that studentId' })
+          : res.json(user)
       )
       .catch((err) => {
         console.log(err);
@@ -74,7 +71,7 @@ module.exports = {
   // Update a single user
   updateUser(req, res) {
     User.findOneAndUpdate(
-      { email: req.params.email },
+      { studentId: req.params.studentId },
       { $set: req.body },
       { runValidators: true, new: true }
     )
@@ -88,13 +85,13 @@ module.exports = {
 
   updateBalance(req,res) {
     User.findOneAndUpdate(
-      { email: req.params.email },
-      { $set: req.body },
+      { studentId: req.params.studentId },
+      { $set: req.body.balance },
       { runValidators: true, new: true }
     )
       .then((user) =>
         !user
-          ? res.status(404).json({ message: 'No user with this id!' })
+          ? res.status(404).json({ message: 'No user with this email!' })
           : res.json(user)
       )
       .catch((err) => res.status(500).json(err));
@@ -106,6 +103,7 @@ module.exports = {
       const newUser = await User.create({
         email: req.body.email,
         studentId: req.body.studentId,
+        name: req.body.name,
         balance: req.body.balance
       });
       console.log(`newUser: ${newUser}`)
@@ -118,7 +116,7 @@ module.exports = {
 
   // Delete a user and remove them from the course
   deleteUser(req, res) {
-    User.findOneAndRemove({ _id: req.params.userId })
+    User.findOneAndRemove({ email: req.params.email })
       .then((user) =>
         !user
           ? res.status(404).json({ message: 'No such user exists' })

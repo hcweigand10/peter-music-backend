@@ -9,16 +9,22 @@ const userSchema = new Schema(
       max_length: 50,
       unique: true
     },
-    studentID: {
-      type: Number,
+    studentId: {
+      type: String,
       required: true,
       min_length: 5,
       max_length: 5
     },
+    name: {
+      type: String,
+      required: true,
+      max_length: 50,
+      unique: false
+    },
     balance: {
       type: Number,
-      default: 0
-    }
+      required: true,
+    },
   },
   {
     toJSON: {
