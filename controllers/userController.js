@@ -131,7 +131,7 @@ module.exports = {
 
   getTokenData(req, res) {
     const token = req.headers?.authorization?.split(" ").pop();
-    jwt.verify(token, "spenceriscute", (err, data) => {
+    jwt.verify(token, "peteriscute", (err, data) => {
       if (err) {
         console.log(err);
         const data = {
