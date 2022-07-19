@@ -14,7 +14,7 @@ const app = express();
 
 // DEPLOYED
 app.use(cors({
-  origin:"https://glittery-hotteok-47aca0.netlify.app/"
+  origin:"https://glittery-hotteok-47aca0.netlify.app/existing"
 }))
 
 app.use(express.urlencoded({ extended: true }));
