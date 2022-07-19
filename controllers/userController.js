@@ -19,7 +19,7 @@ module.exports = {
                 id: dbUser.id
               },
               // LOCAL:
-              "spenceriscute",
+              "peteriscute",
 
               // DELPOYED:
               // process.env.JWT_SECRET,
