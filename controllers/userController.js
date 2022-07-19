@@ -19,10 +19,10 @@ module.exports = {
                 id: dbUser.id
               },
               // LOCAL:
-              "peteriscute",
+              // "peteriscute",
 
               // DELPOYED:
-              // process.env.JWT_SECRET,
+              process.env.JWT_SECRET,
               {
                 expiresIn: "6h"
               }
