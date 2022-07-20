@@ -13,7 +13,7 @@ const mysql = require('mysql2');
 router.route('/').get(getUsers).post(createUser);
 
 // /api/users/:userId
-router.route('/:email').get(getSingleUser).delete(deleteUser).put(updateUser);
+router.route('/:studentId').get(getSingleUser).delete(deleteUser).put(updateUser);
 
 // /api/users/:userId/balance
 router.route('/:studentId/balance').put(updateBalance);
