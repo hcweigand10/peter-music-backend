@@ -104,7 +104,8 @@ module.exports = {
         email: req.body.email,
         studentId: req.body.studentId,
         name: req.body.name,
-        balance: req.body.balance
+        balance: req.body.balance,
+        isAdmin: req.body.isAdmin
       });
       console.log(`newUser: ${newUser}`)
       res.status(200).json(newUser);

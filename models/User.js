@@ -23,8 +23,14 @@ const userSchema = new Schema(
     },
     balance: {
       type: Number,
-      required: true,
+      required: false,
+      default: false
     },
+    isAdmin: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
   },
   {
     toJSON: {
@@ -32,12 +38,6 @@ const userSchema = new Schema(
     },
   }
 );
-
-// userSchema
-//   .virtual('friendCount')
-//   .get(function() {
-//     return this.friends.length
-//   })
 
 const User = model('user', userSchema);
 
