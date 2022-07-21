@@ -7,7 +7,7 @@ const {
     updateUser,
     updateBalance
 } = require('../../controllers/userController');
-const mysql = require('mysql2');
+// const mysql = require('mysql2');
 
 // /api/users
 router.route('/').get(getUsers).post(createUser);

@@ -117,7 +117,7 @@ module.exports = {
 
   // Delete a user and remove them from the course
   deleteUser(req, res) {
-    User.findOneAndRemove({ email: req.params.email })
+    User.findOneAndRemove({ studentId: req.params.studentId })
       .then((user) =>
         !user
           ? res.status(404).json({ message: 'No such user exists' })
