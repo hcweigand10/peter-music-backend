@@ -56,6 +56,7 @@ module.exports = {
   },
   // Get a single user
   getSingleUser(req, res) {
+    console.log(req.session)
     User.findOne({ studentId: req.params.studentId })
       // .select('-__v')
       .then(async (user) =>
