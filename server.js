@@ -1,8 +1,23 @@
 const express = require('express');
+const session = require('express-session');
 const db = require('./config/connection');
 const routes = require('./routes');
 const cors = require("cors");
+const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
+const sess = {
+  secret: 'peteriscute',
+  cookie: {maxAge: 12000000},
+  resave: false,
+  saveUninitialized: true,
+  store: new SequelizeStore({
+    db: db
+  })
+};
+
+app.use(session(sess))
 
 
 
