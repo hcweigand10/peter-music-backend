@@ -3,21 +3,13 @@ const session = require('express-session');
 const db = require('./config/connection');
 const routes = require('./routes');
 const cors = require("cors");
+const MongoStore = require("connect-mongo");
+const { v4: uuidv4 } = require('uuid');
+require('dotenv').config()
+
+
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
-
-const sess = {
-  secret: 'peteriscute',
-  cookie: {maxAge: 12000000},
-  resave: false,
-  saveUninitialized: true,
-  store: new SequelizeStore({
-    db: db
-  })
-};
-
-app.use(session(sess))
 
 
 
@@ -31,6 +23,25 @@ const app = express();
 // app.use(cors({
 //   origin:"https://glittery-hotteok-47aca0.netlify.app/existing"
 // }))
+
+app.use(session({
+  genid: (req) => {
+    return uuidv4()
+  },
+  secret: process.env.JWT_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  cookie: { maxAge: 24 * 60 * 60 * 1000 },
+  store: MongoStore.create({
+    client: mongoose.connection.getClient(),
+    dbName: process.env.MONGO_DB_NAME,
+    collectionName: "sessions",
+    stringify: false,
+    autoRemove: "interval",
+    autoRemoveInterval: 1
+    })
+  }) 
+);
 
 app.use((req, res, next) => {
   const allowedOrigins = ['http://localhost:3000', 'https://glittery-hotteok-47aca0.netlify.app/'];
