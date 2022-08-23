@@ -12,7 +12,7 @@ mongoose.connect(connectionString, {
 });
 
 mongoose.connection
-  .on("open", () => console.log("The goose is open"))
+  .on("open", () => console.log("The goose is loose"))
   .on("close", () => console.log("The goose is closed"))
   .on("error", (error) => {
     console.log(error);
