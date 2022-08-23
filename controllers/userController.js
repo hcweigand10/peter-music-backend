@@ -158,6 +158,9 @@ module.exports = {
     console.log(req.params)
     const user = await User.findOne({id: req.params.userId})
     console.log(user)
+    if (user.balance < 1) {
+      return res.status(501).json({msg: "balance too small"})
+    }
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [

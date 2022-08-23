@@ -20,7 +20,7 @@ router.route('/:studentId').get(getSingleUser).delete(deleteUser).put(updateUser
 router.route('/:studentId/balance').put(updateBalance);
 
 // api/users/create-checkout-session
-router.route('/:UserId/create-checkout-session').post(createCheckoutSession)
+router.route('/:userId/create-checkout-session').post(createCheckoutSession)
 
 
 module.exports = router;
