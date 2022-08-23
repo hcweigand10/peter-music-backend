@@ -11,12 +11,17 @@ mongoose.connect(connectionString, {
   useUnifiedTopology: true,
 });
 
-mongoose.connection
-  .on("open", () => console.log("The goose is loose"))
-  .on("close", () => console.log("The goose is closed"))
-  .on("error", (error) => {
-    console.log(error);
-    process.exit();
-  })
+// mongoose.connection
+//   .on("open", () => {
+//     console.log("The goose is loose")
+//     app.listen(PORT, () => {
+//       console.log(`API server running on port ${PORT}!`);
+//     });
+//   })
+  // .on("close", () => console.log("The goose is no longer loose"))
+  // .on("error", (error) => {
+  //   console.log(error);
+  //   process.exit();
+  // })
 
 module.exports = mongoose;
