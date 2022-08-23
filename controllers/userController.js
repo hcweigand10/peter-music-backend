@@ -156,7 +156,7 @@ module.exports = {
 
   async createCheckoutSession (req, res) {
     console.log(req.params)
-    const user = await User.findOne({id: req.params.userId})
+    const user = await User.findById(req.params.userId)
     console.log(user)
     if (user.balance < 1) {
       return res.status(501).json({msg: "balance too small"})
