@@ -19,8 +19,8 @@ router.route('/:studentId').get(getSingleUser).delete(deleteUser).put(updateUser
 // /api/users/:userId/balance
 router.route('/:studentId/balance').put(updateBalance);
 
-// api/users/create-checkout-session
-router.route('/:UserId/create-checkout-session').post(createCheckoutSession)
+// api/users/create-checkout-session/56
+router.route('/create-checkout-session/:amount').post(createCheckoutSession)
 
 
 module.exports = router;

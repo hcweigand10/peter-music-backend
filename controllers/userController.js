@@ -2,6 +2,7 @@ const { User } = require('../models');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 const jwt = require("jsonwebtoken");
+const stripe = require('../config/stripeConnection')
 
 
 module.exports = {
@@ -89,7 +90,7 @@ module.exports = {
   updateBalance(req,res) {
     User.findOneAndUpdate(
       { studentId: req.params.studentId },
-      { $set: req.body.balance },
+      { $set: req.body },
       { runValidators: true, new: true }
     )
       .then((user) =>
@@ -133,38 +134,48 @@ module.exports = {
   },
 
 
-  getTokenData(req, res) {
+  async getTokenData(req, res) {
     const token = req.headers?.authorization?.split(" ").pop();
+    let tokenData;
     jwt.verify(token, "peteriscute", (err, data) => {
       if (err) {
         console.log(err);
         const data = {
           err: "Token has expired"
         }
-        res.status(403).json(data);
+        return res.status(403).json(data);
       } else {
-        User.findOne({_id:data.id}).then(userData=>{
-          console.log(userData)  
-          res.json(userData);
-        })
+        tokenData = data
       }
     });
+    const userData = await User.findOne({_id:tokenData.id})
+    req.session.stundentId = userData.id
+    console.log('userData: ' + userData)  
+    res.json(userData);
   },
 
   async createCheckoutSession (req, res) {
+    console.log(req.params)
+    const user = await User.findOne({id: req.params.userId})
+    console.log(user)
     const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
       line_items: [
         {
           // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
           price_data: {
-            unit_amount: parseInt(req.params.amount)
+            unit_amount: (user.balance*100),
+            currency: 'usd',
+            product_data: {
+              name: 'Outstanding Balance'
+            },
           },
           quantity: 1,
         },
       ],
       mode: 'payment',
-      success_url: `${YOUR_DOMAIN}/success.html`,
-      cancel_url: `${YOUR_DOMAIN}/cancel.html`,
+      success_url: `${req.headers.origin}/existing/payment_sucess`,
+      cancel_url: `${req.headers.origin}/existing/payment_failed`,
     });
   
     res.redirect(303, session.url);
