@@ -146,12 +146,12 @@ module.exports = {
         return res.status(403).json(data);
       } else {
         tokenData = data
+        const userData = await User.findOne({_id:tokenData.id})
+        req.session.stundentId = userData.id
+        console.log('userData: ' + userData)  
+        res.json(userData);
       }
     });
-    const userData = await User.findOne({_id:tokenData.id})
-    req.session.stundentId = userData.id
-    console.log('userData: ' + userData)  
-    res.json(userData);
   },
 
   async createCheckoutSession (req, res) {
@@ -180,7 +180,7 @@ module.exports = {
       success_url: `${req.headers.origin}/existing/payment_sucess`,
       cancel_url: `${req.headers.origin}/existing/payment_failed`,
     });
-  
+    
     res.redirect(303, session.url);
   }
 
