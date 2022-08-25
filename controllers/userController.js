@@ -137,7 +137,7 @@ module.exports = {
   async getTokenData(req, res) {
     const token = req.headers?.authorization?.split(" ").pop();
     let tokenData;
-    jwt.verify(token, "peteriscute", (err, data) => {
+    jwt.verify(token, "peteriscute", async (err, data) => {
       if (err) {
         console.log(err);
         const data = {
