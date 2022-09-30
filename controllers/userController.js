@@ -42,10 +42,10 @@ module.exports = {
     })
   },
   // Get all users
-  getUsers(req, res) {
+  getStudents(req, res) {
     User.find()
       .then((users) => {
-        return res.json(users);
+        return res.json(users.filter(user => !user.isAdmin));
       })
       .catch((err) => {
         console.log(err);
