@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const {
-    getUsers,
+    getStudents,
     createUser,
     getSingleUser,
     deleteUser,
@@ -11,7 +11,7 @@ const {
 // const mysql = require('mysql2');
 
 // /api/users
-router.route('/').get(getUsers).post(createUser);
+router.route('/').get(getStudents).post(createUser);
 
 // /api/users/:userId
 router.route('/:studentId').get(getSingleUser).delete(deleteUser).put(updateUser);
